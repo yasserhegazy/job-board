@@ -7,6 +7,6 @@ Route::get('/', function(){
     redirect('jobs');
 });
 
-Route::resource('jobs', JobController::class)->only(['index']);
+Route::resource('jobs', JobController::class)->only(['index', 'show']);
 
 
