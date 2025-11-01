@@ -34,4 +34,8 @@ class Job extends Model
             $query->where('category', $category);
         });
     }
+
+    public function employer(){
+        return $this->belongsTo(Employer::class);
+    }
 }
