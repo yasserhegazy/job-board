@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Job;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -17,6 +18,13 @@ class RadioGroup extends Component
     )
     {
         //
+    }
+    public function optionsWithLabels()
+    {
+        // The array_combine method is for converting index array to assotiave array
+        return array_is_list($this->options) ?
+            array_combine($this->options, $this->options)
+            : $this->options;
     }
 
     /**
