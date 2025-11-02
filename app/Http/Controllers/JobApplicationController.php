@@ -4,56 +4,54 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class JobController extends Controller
+class JobApplicationController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        $filters = request()->only(
-            'search',
-            'min_salary',
-            'max_salary',
-            'experience',
-            'category'
-        );
-
-
-        return view(
-            'job.index',
-            ['jobs' => Job::with('employer')->filter($filters)->get()]
-        );
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Job $job)
     {
         //
+        $this->authorize('apply', $job);
+        return view('job_application.create', ['job' => $job]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Job $job, Request $request)
     {
         //
+        $this->authorize('apply', $job);
+        $job->jobApplications()->create([
+            'user_id' => Auth::user()->id,
+            ...$request->validate([
+                'expected_salary' => 'required|min:1|max:1000000'
+            ])
+        ]);
+
+        return redirect()->route('jobs.show', $job)
+                            ->with('success', 'Job application created');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Job $job)
+    public function show(string $id)
     {
         //
-        return view(
-            'job.show',
-            ['job' => $job->load('employer.jobs')]
-        );
     }
 
     /**
@@ -78,6 +76,5 @@ class JobController extends Controller
     public function destroy(string $id)
     {
         //
-        
     }
 }
