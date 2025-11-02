@@ -12,7 +12,7 @@
 
         <!-- Styles / Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @else
             <style>
@@ -31,7 +31,10 @@
             <ul class="flex space-x-2">
                 @auth
                     <li>
-                        {{ auth()->user()->name ?? 'Anynomus' }}
+                        <a href="{{ route('my-job-applications.index') }}">
+                            {{ auth()->user()->name ?? 'Anynomus' }} : Applications
+                        </a>
+
                     </li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST">
