@@ -37,6 +37,9 @@
 
                     </li>
                     <li>
+                        <a href="{{ route('my-jobs.index') }}">My Jobs</a>
+                    </li>
+                    <li>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             @method('delete')
