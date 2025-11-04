@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-   
+
 
     /**
      * Show the form for creating a new resource.
@@ -25,14 +25,14 @@ class AuthController extends Controller
     {
         //
         $request->validate([
-            'email' => 'required|email', 
+            'email' => 'required|email',
             'password' => 'required'
         ]);
 
         $credentials = $request->only('email', 'password');
         $remember = $request->filled('remember');
         if(Auth::attempt($credentials, $remember)){
-            return redirect()->intended('/');
+            return redirect()->intended('/jobs');
         }
         else{
             return redirect()->back()->with('error', 'Invalid credentials');
@@ -73,6 +73,6 @@ class AuthController extends Controller
 
         request()->session()->invalidate();
         request()->session()->regenerateToken();
-        return redirect('/');
+        return redirect('/auth/create');
     }
 }
