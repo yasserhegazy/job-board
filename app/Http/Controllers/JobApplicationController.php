@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Storage;
 
 class JobApplicationController extends Controller
 {
@@ -86,5 +88,14 @@ class JobApplicationController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function downloadCV(JobApplication $application)
+    {
+        // Check if the CV file exists
+        if (Storage::disk('private')->exists($application->cv_path)) {
+            return Storage::disk('private')->download($application->cv_path);
+        }
+
+        return redirect()->back()->with('error', 'CV file not found.');
     }
 }

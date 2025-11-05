@@ -10,7 +10,7 @@ use App\Models\JobApplication;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function(){
-    redirect('jobs');
+    return to_route('jobs.index');
 });
 
 Route::resource('jobs', JobController::class)->only(['index', 'show']);
@@ -30,5 +30,8 @@ Route::middleware('auth')->group(function(){
     Route::resource('employer', EmployerController::class)
         ->only(['create', 'store']);
     Route::middleware('employer')->resource('my-jobs', MyJobController::class);
+    // Route for downloading CV
+    Route::get('/job-applications/{application}/download-cv', [JobApplicationController::class, 'downloadCV'])
+    ->name('job-applications.download-cv');
 });
 

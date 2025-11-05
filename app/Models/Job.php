@@ -16,7 +16,14 @@ class Job extends Model
     public static array $experience = ['entry', 'intermidiate', 'senior'];
     public static array $categories = ['IT', 'Finance', 'Sales', 'Marketing'];
 
-
+    protected $fillable = [
+        'title',
+        'location',
+        'salary',
+        'description',
+        'experience',
+        'category'
+    ];
 
     public function scopeFilter(Builder|QueryBuilder $query, array $filters): Builder|QueryBuilder
     {
