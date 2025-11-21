@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Job extends Model
 {
     /** @use HasFactory<\Database\Factories\JobFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'job_posts';
     public static array $experience = ['entry', 'intermidiate', 'senior'];
     public static array $categories = ['IT', 'Finance', 'Sales', 'Marketing'];

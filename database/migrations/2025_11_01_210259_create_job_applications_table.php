@@ -18,6 +18,8 @@ return new class extends Migration
 
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Job::class)->constrained();
+                // ->onDelete('cascade');
+
             $table->unsignedInteger('expected_salary');
             $table->timestamps();
         });

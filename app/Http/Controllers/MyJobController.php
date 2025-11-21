@@ -21,6 +21,7 @@ class MyJobController extends Controller
         return view('my_job.index', [
             'jobs' => Auth::user()->employer->jobs()
             ->with(['employer', 'jobApplications', 'jobApplications.user'])
+            ->withTrashed()
             ->latest()->paginate(10)
         ]);
     }
@@ -92,8 +93,10 @@ class MyJobController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Job $myJob)
     {
-        //
+        // This method deletes a job owned by the authenticated employer. A soft delete can also be implemented here.
+        $myJob->delete();
+        return redirect()->route('my-jobs.index');
     }
 }
