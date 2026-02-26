@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Apply for {{ $job->title }}">
     <x-breadcrumbs class="mb-4" :links="['Jobs' => route('jobs.index'), $job->title => route('jobs.show', $job), 'Apply' => '#']" />
 
     <x-job-card :$job />
