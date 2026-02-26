@@ -91,6 +91,13 @@ class JobApplicationController extends Controller
     }
     public function downloadCV(JobApplication $application)
     {
+        $user = auth()->user();
+        $application->load('job');
+        if ($user->id !== $application->user_id &&
+            (!$user->employer || $user->employer->id !== $application->job->employer_id)) {
+            abort(403, 'Unauthorized to download this CV.');
+        }
+
         // Check if the CV file exists
         if (Storage::disk('private')->exists($application->cv_path)) {
             return Storage::disk('private')->download($application->cv_path);
