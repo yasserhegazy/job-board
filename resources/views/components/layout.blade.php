@@ -23,55 +23,60 @@
         @endif
         {{-- @vite('resources/css/app.css') --}}
     </head>
-    <body class="min-h-screen flex flex-col bg-gradient-to-r from-indigo-100 from-10% via-sky-100 via-30% to-emerald-100 to-90% text-slate-700">
-        <nav class="mx-auto mt-6 w-full max-w-2xl px-4" x-data="{ open: false }">
-            <div class="flex items-center justify-between rounded-xl bg-white/80 px-4 py-3 shadow-md backdrop-blur">
-                <!-- Brand -->
-                <a href="{{ route('jobs.index') }}" class="flex items-center gap-2 text-lg font-bold text-indigo-700">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <body class="flex min-h-screen flex-col bg-slate-50 text-slate-700">
+        {{-- Navbar --}}
+        <nav class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur-md" x-data="{ open: false }">
+            <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+                <a href="{{ route('jobs.index') }}" class="flex items-center gap-2.5 text-xl font-bold tracking-tight text-indigo-600 transition hover:text-indigo-700">
+                    <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                     </svg>
                     Job Board
                 </a>
 
-                <!-- Desktop Nav -->
+                {{-- Desktop Nav --}}
                 <div class="hidden items-center gap-1 md:flex">
                     <a href="{{ route('jobs.index') }}"
-                       class="rounded-lg px-3 py-1.5 text-sm font-medium transition {{ request()->routeIs('jobs.index') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
-                        Home
+                       class="rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs('jobs.index') || request()->routeIs('jobs.show') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                        Browse Jobs
                     </a>
                     @auth
-                        <a href="{{ route('my-job-applications.index') }}"
-                           class="rounded-lg px-3 py-1.5 text-sm font-medium transition {{ request()->routeIs('my-job-applications.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
-                            Applications
-                        </a>
                         <a href="{{ route('my-jobs.index') }}"
-                           class="rounded-lg px-3 py-1.5 text-sm font-medium transition {{ request()->routeIs('my-jobs.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                           class="rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs('my-jobs.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                             My Jobs
                         </a>
-                        <div class="ml-2 flex items-center gap-2 border-l border-slate-200 pl-3">
-                            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-sm font-semibold text-white">
+                        <a href="{{ route('my-job-applications.index') }}"
+                           class="rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs('my-job-applications.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                            Applications
+                        </a>
+                        <div class="mx-2 h-6 w-px bg-slate-200"></div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-xs font-bold text-white shadow-sm">
                                 {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
                             </div>
                             <span class="text-sm font-medium text-slate-700">{{ auth()->user()->name ?? 'Anonymous' }}</span>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button class="rounded-lg px-3 py-1.5 text-sm font-medium text-red-600 transition hover:bg-red-50">
-                                    Logout
-                                </button>
-                            </form>
                         </div>
+                        <form action="{{ route('logout') }}" method="POST" class="ml-1">
+                            @csrf
+                            @method('delete')
+                            <button class="rounded-lg px-3 py-2 text-sm font-medium text-slate-500 transition hover:bg-red-50 hover:text-red-600">
+                                Logout
+                            </button>
+                        </form>
                     @else
                         <a href="{{ route('auth.create') }}"
-                           class="rounded-lg bg-indigo-600 px-4 py-1.5 text-sm font-medium text-white transition hover:bg-indigo-700">
-                            Sign in
+                           class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">
+                            Sign In
+                        </a>
+                        <a href="{{ route('register') }}"
+                           class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-700">
+                            Register
                         </a>
                     @endauth
                 </div>
 
-                <!-- Mobile Hamburger -->
-                <button @click="open = !open" class="inline-flex items-center justify-center rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 md:hidden">
+                {{-- Mobile Hamburger --}}
+                <button @click="open = !open" class="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 md:hidden">
                     <svg x-show="!open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
@@ -81,90 +86,81 @@
                 </button>
             </div>
 
-            <!-- Mobile Menu -->
-            <div x-show="open" x-transition x-cloak class="mt-2 rounded-xl bg-white/80 px-4 py-3 shadow-md backdrop-blur md:hidden">
-                <a href="{{ route('jobs.index') }}"
-                   class="block rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs('jobs.index') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100' }}">
-                    Home
-                </a>
+            {{-- Mobile Menu --}}
+            <div x-show="open" x-cloak x-transition class="border-t border-slate-200 bg-white px-4 pb-4 pt-2 md:hidden">
+                <a href="{{ route('jobs.index') }}" class="block rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs('jobs.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600' }}">Browse Jobs</a>
                 @auth
-                    <a href="{{ route('my-job-applications.index') }}"
-                       class="block rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs('my-job-applications.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100' }}">
-                        Applications
-                    </a>
-                    <a href="{{ route('my-jobs.index') }}"
-                       class="block rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs('my-jobs.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100' }}">
-                        My Jobs
-                    </a>
-                    <div class="mt-2 flex items-center gap-2 border-t border-slate-200 pt-3">
-                        <div class="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-sm font-semibold text-white">
-                            {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
-                        </div>
+                    <a href="{{ route('my-jobs.index') }}" class="block rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs('my-jobs.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600' }}">My Jobs</a>
+                    <a href="{{ route('my-job-applications.index') }}" class="block rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs('my-job-applications.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600' }}">Applications</a>
+                    <div class="my-2 border-t border-slate-100"></div>
+                    <div class="flex items-center gap-2 px-3 py-2">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-xs font-bold text-white">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</div>
                         <span class="text-sm font-medium text-slate-700">{{ auth()->user()->name ?? 'Anonymous' }}</span>
                     </div>
-                    <form action="{{ route('logout') }}" method="POST" class="mt-2">
+                    <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         @method('delete')
-                        <button class="w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-red-600 transition hover:bg-red-50">
-                            Logout
-                        </button>
+                        <button class="block w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-red-600 hover:bg-red-50">Logout</button>
                     </form>
                 @else
-                    <a href="{{ route('auth.create') }}"
-                       class="mt-2 block rounded-lg bg-indigo-600 px-3 py-2 text-center text-sm font-medium text-white transition hover:bg-indigo-700">
-                        Sign in
-                    </a>
+                    <a href="{{ route('auth.create') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-600">Sign In</a>
+                    <a href="{{ route('register') }}" class="mt-1 block rounded-lg bg-indigo-600 px-3 py-2 text-center text-sm font-medium text-white">Register</a>
                 @endauth
             </div>
         </nav>
 
-        <main class="mx-auto mt-6 w-full max-w-2xl flex-1 px-4">
+        {{-- Main Content --}}
+        <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
             @if (session('success'))
-                <div x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
-                     role="alert" class="relative mb-6 rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 shadow-sm">
-                    <div class="flex items-start gap-3">
-                        <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-green-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" x-transition
+                     role="alert" class="mb-6 flex items-center justify-between rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-800 shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <svg class="h-5 w-5 shrink-0 text-green-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
-                        <div class="flex-1">
-                            <p class="text-sm font-semibold">Success!</p>
-                            <p class="mt-0.5 text-sm">{{ session('success') }}</p>
-                        </div>
-                        <button @click="show = false" class="text-green-400 transition hover:text-green-600">
-                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+                        <p class="text-sm font-medium">{{ session('success') }}</p>
                     </div>
+                    <button @click="show = false" class="text-green-400 transition hover:text-green-600">&times;</button>
                 </div>
             @endif
-
             @if (session('error'))
-                <div x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
-                     role="alert" class="relative mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800 shadow-sm">
-                    <div class="flex items-start gap-3">
-                        <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <div x-data="{ show: true }" x-show="show" x-transition
+                     role="alert" class="mb-6 flex items-center justify-between rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-800 shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <svg class="h-5 w-5 shrink-0 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                         </svg>
-                        <div class="flex-1">
-                            <p class="text-sm font-semibold">Error!</p>
-                            <p class="mt-0.5 text-sm">{{ session('error') }}</p>
-                        </div>
-                        <button @click="show = false" class="text-red-400 transition hover:text-red-600">
-                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+                        <p class="text-sm font-medium">{{ session('error') }}</p>
                     </div>
+                    <button @click="show = false" class="text-red-400 transition hover:text-red-600">&times;</button>
                 </div>
             @endif
 
             {{ $slot }}
         </main>
 
-        <footer class="mt-auto border-t border-slate-200 py-6 text-center text-sm text-slate-500">
-            <p>Built with Laravel, Tailwind CSS & Alpine.js</p>
-            <p class="mt-1">&copy; {{ date('Y') }} Job Board</p>
+        {{-- Footer --}}
+        <footer class="border-t border-slate-200 bg-white">
+            <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+                <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+                    <div class="flex items-center gap-2 text-sm font-medium text-slate-600">
+                        <svg class="h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                        </svg>
+                        Job Board
+                    </div>
+                    <div class="flex items-center gap-6 text-sm text-slate-500">
+                        <a href="{{ route('jobs.index') }}" class="transition hover:text-indigo-600">Browse Jobs</a>
+                        @auth
+                            <a href="{{ route('my-jobs.index') }}" class="transition hover:text-indigo-600">My Jobs</a>
+                        @endauth
+                        @guest
+                            <a href="{{ route('auth.create') }}" class="transition hover:text-indigo-600">Sign In</a>
+                        @endguest
+                    </div>
+                    <p class="text-sm text-slate-400">&copy; {{ date('Y') }} Job Board. Built with Laravel &amp; Tailwind CSS.</p>
+                </div>
+            </div>
         </footer>
     </body>
 </html>
