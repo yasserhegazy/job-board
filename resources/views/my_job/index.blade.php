@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="My Jobs">
     <x-breadcrumbs :links="['My Jobs' => '#']" class="mb-4" />
 
     <div class="mb-8 text-right">
@@ -8,8 +8,11 @@
     @forelse ($jobs as $job)
         <x-job-card :$job>
             <div class="text-xs text-slate-500">
+                <div class="mb-2 text-sm font-medium text-slate-600">
+                    Applications ({{ $job->jobApplications->count() }})
+                </div>
                 @forelse ($job->jobApplications as $application)
-                    <div class="mb-4 flex items-center justify-between">
+                    <div class="flex items-center justify-between rounded-md p-3 odd:bg-slate-50">
                         <div>
                             <div>{{ $application->user->name }}</div>
                             <div>
@@ -32,10 +35,10 @@
 
                 <div class="flex space-x-2">
                     <x-link-button href="{{ route('my-jobs.edit', $job) }}">Edit</x-link-button>
-                    <form action="{{ route('my-jobs.destroy', $job) }}" method="POST">
+                    <form action="{{ route('my-jobs.destroy', $job) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this job?')">
                         @csrf
                         @method('DELETE')
-                        <x-button type="submit" class="bg-red-600 hover:bg-red-700">Delete</x-button>
+                        <x-button type="submit" class="!bg-red-600 !text-white !border-red-600 hover:!bg-red-700">Delete</x-button>
                     </form>
                 </div>
             </div>

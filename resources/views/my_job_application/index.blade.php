@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="My Applications">
     <x-breadcrumbs class="mb-4" :links="['My Job Applications' => '#']" />
 
         @forelse($applications as $application)
@@ -12,8 +12,7 @@
                             Your asking salary: ${{ number_format($application->expected_salary) }}
                         </div>
                         <div>
-                            Other: {{ Str::plural('applicant', $application->job->job_applications_count - 1) }}
-                            {{ $application->job->job_applications_count - 1 }}
+                            Other applicants: {{ $application->job->job_applications_count - 1 }} {{ Str::plural('applicant', $application->job->job_applications_count - 1) }}
                         </div>
                         <div>
                             Average asking salary: ${{ number_format($application->job->job_applications_avg_expected_salary) }}
@@ -21,10 +20,10 @@
                     </div>
                     {{-- <div>{{ $application->expected_salary }}</div> --}}
                     <div>
-                        <form action="{{ route('my-job-applications.destroy', $application) }}" method="post">
+                        <form action="{{ route('my-job-applications.destroy', $application) }}" method="post" onsubmit="return confirm('Are you sure you want to cancel this application?')">
                             @csrf
                             @method('DELETE')
-                            <x-button>Cancel</x-button>
+                            <x-button class="!bg-red-50 !text-red-700 !border-red-200 hover:!bg-red-100">Cancel Application</x-button>
                         </form>
                     </div>
                 </div>
@@ -40,4 +39,6 @@
                 </div>
             </div>
         @endforelse
+
+        {{ $applications->links() }}
 </x-layout>
