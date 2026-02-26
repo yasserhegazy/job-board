@@ -1,18 +1,22 @@
-<x-layout title="Sign In">
+<x-layout title="Register">
     <div class="flex min-h-[60vh] items-center justify-center">
         <div class="w-full max-w-md">
             <div class="mb-8 text-center">
                 <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-100">
                     <svg class="h-7 w-7 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
                     </svg>
                 </div>
-                <h1 class="text-3xl font-bold tracking-tight text-slate-900">Welcome Back</h1>
-                <p class="mt-2 text-slate-500">Sign in to your account to continue</p>
+                <h1 class="text-3xl font-bold tracking-tight text-slate-900">Create Account</h1>
+                <p class="mt-2 text-slate-500">Join Job Board to find or post jobs</p>
             </div>
             <x-card class="!p-8">
-                <form action="{{ route('auth.store') }}" method="POST">
+                <form action="{{ route('register') }}" method="POST">
                     @csrf
+                    <div class="mb-5">
+                        <x-label for="name" :required="true">Full Name</x-label>
+                        <x-text-input name="name" placeholder="John Doe" />
+                    </div>
                     <div class="mb-5">
                         <x-label for="email" :required="true">E-mail</x-label>
                         <x-text-input name="email" type="email" placeholder="you@example.com" />
@@ -21,18 +25,18 @@
                         <x-label for="password" :required="true">Password</x-label>
                         <x-text-input name="password" type="password" placeholder="••••••••" />
                     </div>
-                    <div class="mb-6 flex items-center">
-                        <input type="checkbox" name="remember" id="remember" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                        <label for="remember" class="ml-2 text-sm text-slate-600">Remember me</label>
+                    <div class="mb-6">
+                        <x-label for="password_confirmation" :required="true">Confirm Password</x-label>
+                        <x-text-input name="password_confirmation" type="password" placeholder="••••••••" />
                     </div>
                     <x-button class="w-full !bg-indigo-600 !text-white !border-indigo-600 hover:!bg-indigo-700 !py-3">
-                        Sign In
+                        Create Account
                     </x-button>
                 </form>
             </x-card>
             <p class="mt-6 text-center text-sm text-slate-500">
-                Don't have an account?
-                <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">Create one</a>
+                Already have an account?
+                <a href="{{ route('auth.create') }}" class="font-medium text-indigo-600 hover:text-indigo-500">Sign in</a>
             </p>
         </div>
     </div>

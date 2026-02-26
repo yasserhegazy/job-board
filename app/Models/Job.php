@@ -14,7 +14,7 @@ class Job extends Model
     /** @use HasFactory<\Database\Factories\JobFactory> */
     use HasFactory, SoftDeletes;
     protected $table = 'job_posts';
-    public static array $experience = ['entry', 'intermidiate', 'senior'];
+    public static array $experience = ['entry', 'intermediate', 'senior'];
     public static array $categories = ['IT', 'Finance', 'Sales', 'Marketing'];
 
     protected $fillable = [
