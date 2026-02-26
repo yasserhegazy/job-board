@@ -34,12 +34,20 @@
                 @endforelse
 
                 <div class="flex space-x-2">
-                    <x-link-button href="{{ route('my-jobs.edit', $job) }}">Edit</x-link-button>
-                    <form action="{{ route('my-jobs.destroy', $job) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this job?')">
-                        @csrf
-                        @method('DELETE')
-                        <x-button type="submit" class="!bg-red-600 !text-white !border-red-600 hover:!bg-red-700">Delete</x-button>
-                    </form>
+                    @if ($job->trashed())
+                        <form action="{{ route('my-jobs.restore', $job) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <x-button type="submit" class="!bg-green-600 !text-white !border-green-600 hover:!bg-green-700">Restore</x-button>
+                        </form>
+                    @else
+                        <x-link-button href="{{ route('my-jobs.edit', $job) }}">Edit</x-link-button>
+                        <form action="{{ route('my-jobs.destroy', $job) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this job?')">
+                            @csrf
+                            @method('DELETE')
+                            <x-button type="submit" class="!bg-red-600 !text-white !border-red-600 hover:!bg-red-700">Delete</x-button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </x-job-card>

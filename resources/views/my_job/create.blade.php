@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Post New Job">
   <x-breadcrumbs :links="['My Jobs' => route('my-jobs.index'), 'Create' => '#']" class="mb-4" />
 
   <x-card class="mb-8">

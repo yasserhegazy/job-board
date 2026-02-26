@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Edit Job">
   <x-breadcrumbs :links="['My Jobs' => route('my-jobs.index'), 'Edit Job' => '#']" class="mb-4" />
 
   <x-card class="mb-8">

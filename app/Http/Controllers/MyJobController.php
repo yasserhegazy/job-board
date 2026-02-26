@@ -97,6 +97,17 @@ class MyJobController extends Controller
     {
         // This method deletes a job owned by the authenticated employer. A soft delete can also be implemented here.
         $myJob->delete();
-        return redirect()->route('my-jobs.index');
+        return redirect()->route('my-jobs.index')->with('success', 'Job deleted successfully.');
+    }
+
+    /**
+     * Restore the specified soft-deleted resource.
+     */
+    public function restore(Job $myJob)
+    {
+        $this->authorize('restore', $myJob);
+        $myJob->restore();
+        return redirect()->route('my-jobs.index')
+            ->with('success', 'Job restored successfully.');
     }
 }
